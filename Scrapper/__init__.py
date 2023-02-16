@@ -1,0 +1,1 @@
+from .scrap_cnn import run_cnn

@@ -1,1 +1,7 @@
 venv
+dataset
+
+__temp*
+__pycache__
+
+*.pyc
