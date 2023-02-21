@@ -1,7 +1,9 @@
 import os
+from Scrapper.obj import Progress
 from Scrapper.utils import get_timestamp
 
 TEMP_URL_CSV = '__temp_url.csv'
+TEMP_PROGRESS = '__temp_progress.csv'
 DELIMITER_CSV = ';'
 
 
@@ -16,7 +18,13 @@ class Config:
         self.BASE_URL = None
         self.FILENAME = None
         self.OUTPUT_DIR = os.getcwd() + '/dataset'
+        self.LAST_ID = None
         self._check_dir()
+
+    def update_by_progress(self, progress: Progress):
+        if progress:
+            self.FILENAME = progress.Filename
+            self.LAST_ID = progress.LastId
 
     def _check_dir(self):
         if not os.path.isdir(self.OUTPUT_DIR):

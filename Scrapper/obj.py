@@ -26,5 +26,6 @@ class News:
             self.Url, 
             ]
 
-
-
+class Progress:
+    Filename: str
+    LastId: int

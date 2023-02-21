@@ -6,7 +6,7 @@ from urllib.request import Request, urlopen
 from Scrapper.config import Config, KompasConfig
 
 from Scrapper.obj import News
-from Scrapper.dataset import remove_url_temp, save_news, save_url_temp
+from Scrapper.dataset import is_url_temp_exists, read_temp_progress, read_url_temp, remove_url_temp, save_news, save_temp_progress, save_url_temp
 
 def read_page(url:str=None) -> List:
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -113,12 +113,23 @@ def get_news_content(url:str) -> News:
 
 
 def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
-    for url in tqdm(urls, desc='Processing News Contents'):
+    bar = tqdm(desc='Processing News Contents', total=len(urls))
+    if config.LAST_ID is not None:
+        urls = urls[config.LAST_ID+1:]
+        time.sleep(1)
+        bar.update(config.LAST_ID)
+
+    for url in urls:
         trial = 0
         while True:
             try:
                 news = get_news_content(url)
                 save_news(config, news)
+                
+                # update progress
+                config.LAST_ID+=1
+                save_temp_progress(config.FILENAME, config.LAST_ID)
+                bar.update(1)
                 break
             except Exception as e:
                 trial += 1
@@ -133,10 +144,18 @@ def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
 
 
 def run_kompas(num_of_page: int):
-    config = KompasConfig()
     print('Starting Kompas News Scrapper')
-    urls = get_multi_pages(config.BASE_URL, num_of_page)
-    save_url_temp(urls)
+    config = KompasConfig()
+    
+    temp_progress = read_temp_progress()
+    config.update_by_progress(temp_progress)
+    is_read_url = is_url_temp_exists()
+
+    if is_read_url():
+        urls = read_url_temp()
+    else:
+        urls = get_multi_pages(config.BASE_URL, num_of_page)
+        save_url_temp(urls)
 
     get_multi_news_content(config, urls)
     remove_url_temp()
