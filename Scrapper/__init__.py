@@ -1,2 +1,1 @@
-from .scrap_cnn import run_cnn
-from .scrap_kompas import run_kompas
+from .run import run_cnn, run_kompas
