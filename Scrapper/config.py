@@ -18,7 +18,7 @@ class Config:
         self.BASE_URL = None
         self.FILENAME = None
         self.OUTPUT_DIR = os.getcwd() + '/dataset'
-        self.LAST_ID = None
+        self.LAST_ID = 0
         self._check_dir()
 
     def update_by_progress(self, progress: Progress):

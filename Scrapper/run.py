@@ -12,7 +12,7 @@ import time
 
 def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
     bar = tqdm(desc='Processing News Contents', total=len(urls))
-    if config.LAST_ID is not None:
+    if config.LAST_ID != 0:
         urls = urls[config.LAST_ID+1:]
         time.sleep(1)
         bar.update(config.LAST_ID)
