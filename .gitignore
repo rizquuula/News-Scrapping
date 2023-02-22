@@ -3,5 +3,6 @@ dataset
 
 __temp*
 __pycache__
+df_*
 
 *.pyc

@@ -62,6 +62,8 @@ def get_news_content_cnn(url:str) -> News:
     news_timestamp = news_timestamp.text.strip() if news_timestamp is not None else ''
 
     news_full_text = soup.find("div", {"id": "detikdetailtext"})
+    if not news_full_text:
+        news_full_text = soup.find("div", {"class": "detail_text"})
     news_full_text = news_full_text.text.strip() if news_full_text is not None else ''
     
     news_tag_div = soup.find("div", {"class": "list-topik-terkait"})
