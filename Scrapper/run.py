@@ -56,7 +56,7 @@ def run(config: Config, num_of_page: int):
     else:
         if config.BASE_URL == BaseUrl.CNN:
             urls = get_multi_pages_cnn(config.BASE_URL, num_of_page)
-        elif config.BASE_URL == BaseUrl.CNN:
+        elif config.BASE_URL == BaseUrl.Kompas:
             urls = get_multi_pages_kompas(config.BASE_URL, num_of_page)
         save_url_temp(urls)
 
