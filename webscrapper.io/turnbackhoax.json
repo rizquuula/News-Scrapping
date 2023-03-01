@@ -1,0 +1,17 @@
+{
+    "_id": "turnbackhoax",
+    "startUrl": ["https://turnbackhoax.id/page/[1-100]"],
+    "selectors": [{
+        "id": "news-card",
+        "parentSelectors": ["_root"],
+        "type": "SelectorElement",
+        "selector": "div.mh-loop-content",
+        "multiple": true
+    }, {
+        "id": "news-link",
+        "parentSelectors": ["news-card"],
+        "type": "SelectorLink",
+        "selector": ".entry-title a",
+        "multiple": false
+    }]
+}
