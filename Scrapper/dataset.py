@@ -53,10 +53,10 @@ def read_temp_progress() -> Progress:
     return None
 
 
-def save_temp_progress(filename, last_id) -> None:
+def save_temp_progress(config:Config) -> None:
     with open (TEMP_PROGRESS, 'w') as f:
         writer = csv.writer(f, delimiter=DELIMITER_CSV)
-        writer.writerow([filename,last_id])
+        writer.writerow([config.FILENAME, config.LAST_ID])
 
 def remove_temp_progress():
     os.remove(TEMP_PROGRESS)

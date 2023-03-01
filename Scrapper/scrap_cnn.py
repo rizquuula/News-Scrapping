@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from Scrapper.config import CNNConfig
 from Scrapper.obj import News
 from tqdm import tqdm 
 from typing import List
@@ -24,14 +25,14 @@ def read_page_cnn(url:str=None) -> List:
     return links
 
 
-def get_multi_pages_cnn(base_url:str, num_of_pages:int) -> List[str]:
+def get_multi_pages_cnn(config:CNNConfig) -> List[str]:
     all_links = []
-    for i in tqdm(range(num_of_pages), desc='Processing News Pages:'):
+    for i in tqdm(range(config.NUM_OF_PAGE), desc='Processing News Pages:'):
         trial = 0
         while True:
             try:
                 id = 1+i
-                url = f'{base_url}{id}'
+                url = f'{config.BASE_URL}{id}'
                 page_links = read_page_cnn(url)
                 all_links.extend(page_links)
                 break

@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from Scrapper.config import KompasConfig
 from Scrapper.obj import News
 from tqdm import tqdm 
 from typing import List
@@ -24,14 +25,14 @@ def read_page_kompas(url:str=None) -> List:
     return links
 
 
-def get_multi_pages_kompas(base_url:str, num_of_pages:int) -> List[str]:
+def get_multi_pages_kompas(config:KompasConfig) -> List[str]:
     all_links = []
-    for i in tqdm(range(num_of_pages), desc='Processing News Pages:'):
+    for i in tqdm(range(config.NUM_OF_PAGE), desc='Processing News Pages:'):
         trial = 0
         while True:
             try:
                 id = 1+i
-                url = f'{base_url}?page={id}'
+                url = f'{config.BASE_URL}?page={id}'
                 page_links = read_page_kompas(url)
                 all_links.extend(page_links)
                 break

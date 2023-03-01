@@ -1,1 +1,1 @@
-from .run import run_cnn, run_kompas
+from .run import run_cnn, run_kompas, run_tempo

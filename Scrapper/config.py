@@ -10,7 +10,7 @@ DELIMITER_CSV = ';'
 class BaseUrl(object):
     CNN = 'https://www.cnnindonesia.com/politik/indeks/4/'
     Kompas = 'https://www.kompas.com/tag/politik'
-    Tempo = 'https://www.tempo.co/indeks/2023-02-01/nasional/politik'
+    Tempo = 'https://www.tempo.co/indeks/YYYY-MM-DD/nasional/politik'
 
 
 class Config:
@@ -32,22 +32,25 @@ class Config:
 
 
 class CNNConfig(Config):
-    def __init__(self):
+    def __init__(self, num_of_page):
         super().__init__()
         self.BASE_URL=BaseUrl.CNN
         self.FILENAME=f'dataset_cnn_{get_timestamp()}.csv'
+        self.NUM_OF_PAGE = num_of_page
 
 
 class KompasConfig(Config):
-    def __init__(self):
+    def __init__(self, num_of_page):
         super().__init__()
         self.BASE_URL=BaseUrl.Kompas
         self.FILENAME=f'dataset_kompas_{get_timestamp()}.csv'
+        self.NUM_OF_PAGE = num_of_page
 
 
 class TempoConfig(Config):
-    def __init__(self):
+    def __init__(self, num_of_day, start_date):
         super().__init__()
         self.BASE_URL=BaseUrl.Tempo
         self.FILENAME=f'dataset_tempo_{get_timestamp()}.csv'
-
+        self.START_DATE=start_date
+        self.NUM_OF_DAY=num_of_day

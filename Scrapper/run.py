@@ -1,4 +1,5 @@
-from Scrapper.config import BaseUrl, CNNConfig, Config, KompasConfig
+import sys
+from Scrapper.config import BaseUrl, CNNConfig, Config, KompasConfig, TempoConfig
 from Scrapper.dataset import is_url_temp_exists, read_temp_progress, read_url_temp, remove_temp_progress, remove_url_temp, save_news, save_temp_progress, save_url_temp
 from Scrapper.obj import News
 from Scrapper.scrap_cnn import get_multi_pages_cnn, get_news_content_cnn
@@ -8,6 +9,8 @@ from tqdm import tqdm
 from typing import List
 
 import time
+
+from Scrapper.scrap_tempo import get_multi_pages_tempo, get_news_content_tempo
 
 
 def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
@@ -25,11 +28,13 @@ def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
                     news = get_news_content_cnn(url)
                 elif config.BASE_URL == BaseUrl.Kompas:
                     news = get_news_content_kompas(url)
+                elif config.BASE_URL == BaseUrl.Tempo:
+                    news = get_news_content_tempo(url)
                 save_news(config, news)
                 
                 # update progress
                 config.LAST_ID+=1
-                save_temp_progress(config.FILENAME, config.LAST_ID)
+                save_temp_progress(config)
                 bar.update(1)
                 break
             except Exception as e:
@@ -46,7 +51,7 @@ def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
     
 
 
-def run(config: Config, num_of_page: int):
+def run(config:Config):
     temp_progress = read_temp_progress()
     config.update_by_progress(temp_progress)
     is_read_url = is_url_temp_exists()
@@ -55,9 +60,12 @@ def run(config: Config, num_of_page: int):
         urls = read_url_temp()
     else:
         if config.BASE_URL == BaseUrl.CNN:
-            urls = get_multi_pages_cnn(config.BASE_URL, num_of_page)
+            urls = get_multi_pages_cnn(config)
         elif config.BASE_URL == BaseUrl.Kompas:
-            urls = get_multi_pages_kompas(config.BASE_URL, num_of_page)
+            urls = get_multi_pages_kompas(config)
+        elif config.BASE_URL == BaseUrl.Tempo:
+            urls = get_multi_pages_tempo(config)
+
         save_url_temp(urls)
 
     get_multi_news_content(config, urls)
@@ -67,11 +75,17 @@ def run(config: Config, num_of_page: int):
 
 def run_cnn(num_of_page: int):
     print('Starting CNN News Scrapper')
-    config = CNNConfig()
-    run(config, num_of_page)
+    config = CNNConfig(num_of_page)
+    run(config)
 
 
 def run_kompas(num_of_page: int):
     print('Starting Kompas News Scrapper')
-    config = KompasConfig()
-    run(config, num_of_page)
+    config = KompasConfig(num_of_page)
+    run(config)
+
+
+def run_tempo(num_of_day: int, start_date:str='2022-01-01'):
+    print('Starting Tempo News Scrapper')
+    config = TempoConfig(num_of_day, start_date)
+    run(config)
