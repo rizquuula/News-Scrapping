@@ -71,12 +71,12 @@ def get_news_content_turnbackhoax(url:str) -> News:
     news_full_text = news_full_text.text.strip() if news_full_text is not None else ''
     
     news_tag_div = soup.find("span", {"class": "entry-meta-categories"})
+    news_tags = ''
     if news_tag_div:
         news_tags = news_tag_div.find("a")
-        news_tags = [tag for tag in news_tags.text.split(' / ')]
-        news_tags = ';'.join(news_tags)
-    else:
-        news_tags = ''
+        if news_tags:
+            news_tags = [tag for tag in news_tags.text.split(' / ')]
+            news_tags = ';'.join(news_tags)
     
     news_author = soup.find("span", {"class": "entry-meta-author author vcard"})
     news_author = news_author.text.strip() if news_author is not None else ''
