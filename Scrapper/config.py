@@ -4,7 +4,7 @@ from Scrapper.utils import get_timestamp
 
 TEMP_URL_CSV = '__temp_url.csv'
 TEMP_PROGRESS = '__temp_progress.csv'
-DELIMITER_CSV = ';'
+DELIMITER_CSV = ','
 
 
 class BaseUrl(object):
