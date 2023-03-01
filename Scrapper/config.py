@@ -11,6 +11,7 @@ class BaseUrl(object):
     CNN = 'https://www.cnnindonesia.com/politik/indeks/4/'
     Kompas = 'https://www.kompas.com/tag/politik'
     Tempo = 'https://www.tempo.co/indeks/YYYY-MM-DD/nasional/politik'
+    Turnbackhoax = 'https://turnbackhoax.id'
 
 
 class Config:
@@ -54,3 +55,11 @@ class TempoConfig(Config):
         self.FILENAME=f'dataset_tempo_{get_timestamp()}.csv'
         self.START_DATE=start_date
         self.NUM_OF_DAY=num_of_day
+
+
+class TurnbackhoaxConfig(Config):
+    def __init__(self, num_of_page):
+        super().__init__()
+        self.BASE_URL=BaseUrl.Turnbackhoax
+        self.FILENAME=f'dataset_turnbackhoax_{get_timestamp()}.csv'
+        self.NUM_OF_PAGE = num_of_page

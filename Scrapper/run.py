@@ -1,5 +1,5 @@
 import sys
-from Scrapper.config import BaseUrl, CNNConfig, Config, KompasConfig, TempoConfig
+from Scrapper.config import BaseUrl, CNNConfig, Config, KompasConfig, TempoConfig, TurnbackhoaxConfig
 from Scrapper.dataset import is_url_temp_exists, read_temp_progress, read_url_temp, remove_temp_progress, remove_url_temp, save_news, save_temp_progress, save_url_temp
 from Scrapper.obj import News
 from Scrapper.scrap_cnn import get_multi_pages_cnn, get_news_content_cnn
@@ -11,6 +11,7 @@ from typing import List
 import time
 
 from Scrapper.scrap_tempo import get_multi_pages_tempo, get_news_content_tempo
+from Scrapper.scrap_turnbackhoax import get_multi_pages_turnbackhoax, get_news_content_turnbackhoax
 
 
 def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
@@ -30,6 +31,9 @@ def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
                     news = get_news_content_kompas(url)
                 elif config.BASE_URL == BaseUrl.Tempo:
                     news = get_news_content_tempo(url)
+                elif config.BASE_URL == BaseUrl.Turnbackhoax:
+                    news = get_news_content_turnbackhoax(url)
+
                 save_news(config, news)
                 
                 # update progress
@@ -39,7 +43,7 @@ def get_multi_news_content(config: Config, urls: List[str]) -> List[News]:
                 break
             except Exception as e:
                 trial += 1
-                print('Something wrong!!', e)
+                print('Something wrong (2)!!', e)
                 if trial > 5:
                     is_cancel = input('Skip? (y/n) ')
                     if is_cancel.lower() == 'y':
@@ -65,6 +69,8 @@ def run(config:Config):
             urls = get_multi_pages_kompas(config)
         elif config.BASE_URL == BaseUrl.Tempo:
             urls = get_multi_pages_tempo(config)
+        elif config.BASE_URL == BaseUrl.Turnbackhoax:
+            urls = get_multi_pages_turnbackhoax(config)
 
         save_url_temp(urls)
 
@@ -88,4 +94,10 @@ def run_kompas(num_of_page: int):
 def run_tempo(num_of_day: int, start_date:str='2022-01-01'):
     print('Starting Tempo News Scrapper')
     config = TempoConfig(num_of_day, start_date)
+    run(config)
+
+
+def run_turnbackhoax(num_of_page: int):
+    print('Starting Turnbackhoax.id News Scrapper')
+    config = TurnbackhoaxConfig(num_of_page)
     run(config)
