@@ -13,7 +13,7 @@ def read_page_cnn(url:str=None) -> List:
     html_page = urlopen(req).read()
 
     soup = BeautifulSoup(html_page, 'html.parser')
-    news_container = soup.find("div", {"class": "list media_rows middle"})
+    news_container = soup.find("div", {"class": "flex flex-col gap-5"})
     news_boxes = news_container.find_all("article", {})
 
     links = []
@@ -56,18 +56,18 @@ def get_news_content_cnn(url:str) -> News:
 
     soup = BeautifulSoup(html_page, 'html.parser')
     
-    news_title = soup.find("h1", {"class": "title"})
+    news_title = soup.find("h1", {"class": "mb-2 text-[28px] leading-9 text-cnn_black"})
     news_title = news_title.text.strip() if news_title is not None else ''
 
-    news_timestamp = soup.find("div", {"class": "date"})
+    news_timestamp = soup.find("div", {"class": "text-cnn_grey text-sm mb-4"})
     news_timestamp = news_timestamp.text.strip() if news_timestamp is not None else ''
 
-    news_full_text = soup.find("div", {"id": "detikdetailtext"})
+    news_full_text = soup.find("div", {"class": "detail-text text-cnn_black text-sm grow min-w-0"})
     if not news_full_text:
         news_full_text = soup.find("div", {"class": "detail_text"})
     news_full_text = news_full_text.text.strip() if news_full_text is not None else ''
     
-    news_tag_div = soup.find("div", {"class": "list-topik-terkait"})
+    news_tag_div = soup.find("div", {"class": "flex flex-wrap gap-3"})
     if news_tag_div:
         news_tags = news_tag_div.find_all("a")
         news_tags = [tag.text.strip() if tag is not None else '' for tag in news_tags]
@@ -75,7 +75,7 @@ def get_news_content_cnn(url:str) -> News:
     else:
         news_tags = ''
     
-    news_author = soup.find("div", {"class": "author"})
+    news_author = soup.find("div", {"class": "text-cnn_black_light3 text-sm mb-2.5"})
     news_author = news_author.text.strip() if news_author is not None else ''
 
     news = News()
