@@ -1,12 +1,14 @@
 import csv
 import os
 from NewsScraper import scrap_cnn
+from NewsScraper.models.base_url import BaseUrl
 from NewsScraper.scraper_progress.scraper_progress import ScraperProgress
 from NewsScraper.scraper_url.scraper_url import ScraperUrl
 
 
 def test_cnn_should_success():
     data = scrap_cnn(
+        base_url=BaseUrl.indo_cnn.politik,
         num_of_page=1,
         output_filename='cnn.csv',
         overwrite=True
@@ -42,6 +44,7 @@ def test_cnn_should_success_continue_temp():
     progress.update_progress(3)
     
     data = scrap_cnn(
+        base_url=BaseUrl.indo_cnn.politik,
         num_of_page=1,
         output_filename=filename,
         overwrite=False

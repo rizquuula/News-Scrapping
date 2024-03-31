@@ -37,12 +37,14 @@ def execute_scrapper(
 
 
 def scrap_cnn(
+    base_url: str,
     num_of_page: int,
     output_filename: str,
     overwrite: bool=False,
     output_dir: str='dataset',
 ) -> ScraperData:
     config = CNNConfig(
+        base_url=base_url,
         num_of_page=num_of_page,
         output_dir=output_dir,
         filename=output_filename,
@@ -53,12 +55,14 @@ def scrap_cnn(
 
 
 def scrap_kompas(
+    base_url: str,
     num_of_page: int,
     output_filename: str,
     overwrite: bool=False,
     output_dir: str='dataset',
 ) -> ScraperData:
     config = KompasConfig(
+        base_url=base_url,
         num_of_page=num_of_page,
         output_dir=output_dir,
         filename=output_filename,
@@ -69,6 +73,7 @@ def scrap_kompas(
 
 
 def scrap_tempo(
+    base_url: str,
     num_of_page: int,
     start_date: str,
     output_filename: str,
@@ -76,6 +81,7 @@ def scrap_tempo(
     output_dir: str='dataset',
 ) -> ScraperData:
     config = TempoConfig(
+        base_url=base_url,
         num_of_page=num_of_page,
         start_date=start_date,
         output_dir=output_dir,
@@ -87,12 +93,14 @@ def scrap_tempo(
 
 
 def scrap_turnbackhoax(
+    base_url: str,
     num_of_page: int,
     output_filename: str,
     overwrite: bool=False,
     output_dir: str='dataset',
 ) -> ScraperData:
     config = TurnbackhoaxConfig(
+        base_url=base_url,
         num_of_page=num_of_page,
         output_dir=output_dir,
         filename=output_filename,

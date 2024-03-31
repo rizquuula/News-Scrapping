@@ -1,12 +1,14 @@
 import csv
 import os
 from NewsScraper import scrap_kompas
+from NewsScraper.models.base_url import BaseUrl
 from NewsScraper.scraper_progress.scraper_progress import ScraperProgress
 from NewsScraper.scraper_url.scraper_url import ScraperUrl
 
 
 def test_kompas_should_success():
     data = scrap_kompas(
+        base_url=BaseUrl.kompas.politik,
         num_of_page=1,
         output_filename='kompas.csv',
         overwrite=True
@@ -42,6 +44,7 @@ def test_kompas_should_success_continue_temp():
     progress.update_progress(3)
     
     data = scrap_kompas(
+        base_url=BaseUrl.kompas.politik,
         num_of_page=1,
         output_filename=filename,
         overwrite=False

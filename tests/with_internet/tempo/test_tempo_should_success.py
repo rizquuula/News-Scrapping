@@ -1,12 +1,14 @@
 import csv
 import os
 from NewsScraper import scrap_tempo
+from NewsScraper.models.base_url import BaseUrl
 from NewsScraper.scraper_progress.scraper_progress import ScraperProgress
 from NewsScraper.scraper_url.scraper_url import ScraperUrl
 
 
 def test_tempo_should_success():
     data = scrap_tempo(
+        base_url=BaseUrl.tempo.politik,
         num_of_page=1,
         start_date='2022-01-01',
         output_filename='tempo.csv',
@@ -43,6 +45,7 @@ def test_tempo_should_success_continue_temp():
     progress.update_progress(3)
     
     data = scrap_tempo(
+        base_url=BaseUrl.tempo.politik,
         num_of_page=1,
         start_date='2022-01-01',
         output_filename=filename,
