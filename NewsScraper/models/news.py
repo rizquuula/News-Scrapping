@@ -13,6 +13,9 @@ class NewsContent:
     
     @staticmethod
     def new_from_array(data: list):
+        if len(data) != 6:
+            raise ValueError('the length of array should be 6. (title, timestamp, full_text, tags, author, url)')
+        
         return NewsContent(
             title=data[0],
             timestamp=data[1],
